@@ -72,12 +72,12 @@ public:
                 cout << "Halting program" << endl;
             }
             else {
-                //cout << endl << "Program step: " << instruction_fetch_counter << endl;
-                //cout << endl << "Memory" << endl;
-                //memory.print();
-                //cout << endl << "Register" << endl;
-                //cpu_register.print(2);
-                //cout << endl;
+                cout << endl << "Program step: " << instruction_fetch_counter << endl;
+                cout << endl << "Memory" << endl;
+                memory.print();
+                cout << endl << "Register" << endl;
+                cpu_register.print(2);
+                cout << endl;
             }
 
 

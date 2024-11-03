@@ -1,0 +1,22 @@
+Multibly
+Instruction Set:
+1) Load R0 with 00
+2) Load R1 with 00 (ANSWER)
+3) Load R2 with 02 (OPERAND 1)
+4) Load R3 with 04 (OPERAND 2)
+5) Load R4 with FF (DECREMENTER)
+6) Add R2 with R1 into R1
+7) Add R3 with R4 into R3
+8) Comp R3 with R0 -> PRINT
+9) Comp R0 with R0 -> STEP 6
+
+Explanation:
+We are multiplying 2 by 4 using repetitve addition
+We load R0 with 0, R1 with 0 in ASCII (result), R2 with 2 (n1), R3 with 4 (n2), R4 with FF (-1)
+We add R2 with R1 and store the result in R1
+We subtract 1 from R3 by adding R4 to it
+We compare R3 to R0, if R3 reaches 0 then we have added R1 to itself R3 times, so we can print and jump to HALT
+If R3 doesn't equal R0 we then compare R0 to R0, which will always be true, so we jump to step 6
+
+Expected Output:
+8
