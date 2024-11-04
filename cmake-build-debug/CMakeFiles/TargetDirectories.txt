@@ -1,3 +1,0 @@
-O:/2nd year tasks/oop/VoleMachine/cmake-build-debug/CMakeFiles/VoleMachine.dir
-O:/2nd year tasks/oop/VoleMachine/cmake-build-debug/CMakeFiles/edit_cache.dir
-O:/2nd year tasks/oop/VoleMachine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
