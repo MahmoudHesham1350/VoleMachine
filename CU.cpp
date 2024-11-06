@@ -29,6 +29,21 @@ void CU::jump(Byte register_index, Byte memory_index, Register& cpu_register, in
     }
 }
 
+void CU::printOutput(Byte output) {
+    cout << "Screen Output: " << endl;
+    cout << "hex: ";
+    output.print();
+    cout << endl << "ASCII: ";
+
+    int ascii_value = output.get_byte_as_int();
+
+    if (ascii_value < 32 || ascii_value == 127) {
+        cout << "A control Character: " << ascii_value << endl;
+    } else {
+        cout << static_cast<char>(ascii_value) << endl;
+    }
+}
+
 void CU::halt() {
     exit(0);
 }

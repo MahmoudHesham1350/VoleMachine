@@ -12,6 +12,7 @@ public:
     void move(Byte register_index_set, Byte register_index_get, Register& cpu_register);
     void jump(Byte register_index, Byte memory_index, Register& cpu_register, int& program_counter);
     void halt();
+    void printOutput(Byte output);
 };
 
 

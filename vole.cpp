@@ -47,7 +47,7 @@ private:
     Register cpu_register;
     Memory memory;
     ALU hex;
-    CU computer_unit;
+    CU compute_unit;
 
     int instruction_fetch_counter;
 
@@ -117,7 +117,7 @@ public:
                     string byte = "0" + string(1, instruction[1]);
                     register_index = Byte(byte);
                     memory_index = Byte(instruction.substr(2, 2));
-                    computer_unit.load1(register_index, memory_index, cpu_register, memory);
+                    compute_unit.load1(register_index, memory_index, cpu_register, memory);
                     break;
                 }
 
@@ -125,7 +125,7 @@ public:
                     string byte = "0" + string(1, instruction[1]);
                     register_index = Byte(byte);
                     Byte value = (instruction.substr(2, 2));
-                    computer_unit.load2(cpu_register, register_index, value);
+                    compute_unit.load2(cpu_register, register_index, value);
                     break;
                 }
 
@@ -134,19 +134,14 @@ public:
                     string byte = "0" + string(1, instruction[1]);
 
                     if (decisive_pattern.get_byte_as_int() == 0) {
-                        cout << "Screen Output: " << endl;
-                        Byte output =cpu_register.get_address(Byte(byte));
-                        cout << "hex:";
-                        output.print();
-                        cout << endl << "binary: " << output.get_binary_value() << endl;
-                        break;
+                        compute_unit.printOutput(cpu_register.get_address(Byte(byte)));
                     }
                     else {
                         register_index = Byte(byte);
                         memory_index = Byte(instruction.substr(2, 2));
-                        computer_unit.store(register_index, memory_index, cpu_register, memory);
-                        break;
+                        compute_unit.store(register_index, memory_index, cpu_register, memory);
                     }
+                    break;
                 }
 
                 case '4': {
@@ -154,7 +149,7 @@ public:
                     string byte_set = "0" + string(1, instruction[3]);
                     Byte register_index_get = Byte(byte_get);
                     Byte register_index_set(byte_set);
-                    computer_unit.move(register_index_set, register_index_get, cpu_register);
+                    compute_unit.move(register_index_set, register_index_get, cpu_register);
                     break;
                 }
 
@@ -195,11 +190,11 @@ public:
                     register_index = Byte(byte);
                     string string_memory_index = instruction.substr(2, 2);
                     memory_index = Byte(string_memory_index);
-                    computer_unit.jump(register_index, memory_index, cpu_register, program_counter);
+                    compute_unit.jump(register_index, memory_index, cpu_register, program_counter);
                     break;
                 }
                 case 'C': {
-                    computer_unit.halt();
+                    compute_unit.halt();
                     break;
                 }
 
