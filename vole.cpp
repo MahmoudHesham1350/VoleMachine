@@ -95,7 +95,8 @@ public:
         split_Input(file);
     }
 
-    void test(){
+    void run_machine(bool as_whole){
+        vector <Byte> screen_output;
         while (true) {
             string instruction = fetch();
             char opcode = instruction[0];
@@ -103,12 +104,15 @@ public:
             Byte memory_index("00");
 
 
-            cout << endl << "Program instruction: " << instruction << endl;
-            cout << endl << "Memory" << endl;
-            memory.print();
-            cout << endl << "Register" << endl;
-            cpu_register.print(2);
-            cout << endl;
+            if (!as_whole){
+                cout << endl << "Program instruction: " << instruction << endl;
+                cout << endl << "Memory" << endl;
+                memory.print();
+                cout << endl << "Register" << endl;
+                cpu_register.print(2);
+                cout << endl;
+            }
+
 
 
 
@@ -134,7 +138,11 @@ public:
                     string byte = "0" + string(1, instruction[1]);
 
                     if (decisive_pattern.get_byte_as_int() == 0) {
-                        compute_unit.printOutput(cpu_register.get_address(Byte(byte)));
+                        if (as_whole){
+                            screen_output.push_back(cpu_register.get_address(Byte(byte)));
+                        } else{
+                            compute_unit.printOutput(cpu_register.get_address(Byte(byte)));
+                        }
                     }
                     else {
                         register_index = Byte(byte);
@@ -194,6 +202,25 @@ public:
                     break;
                 }
                 case 'C': {
+                    if (as_whole){
+                        cout << endl << "Memory" << endl;
+                        memory.print();
+                        cout << endl << "Register" << endl;
+                        cpu_register.print(2);
+                        cout << endl;
+                        cout << "Screen Output: " << endl;
+                        for (auto &i : screen_output) {
+                            cout << "hex: ";
+                            i.print();
+                            cout << endl << "ASCII: ";
+                            int ascii_value = i.get_byte_as_int();
+                            if (ascii_value < 32 || ascii_value == 127) {
+                                cout << "A control Character: " << ascii_value << endl;
+                            } else {
+                                cout << static_cast<char>(ascii_value) << endl;
+                            }
+                        }
+                    }
                     compute_unit.halt();
                     break;
                 }
@@ -208,13 +235,15 @@ public:
         }
 
 
+
     }
 };
 
 
 
-void main_program(){
+void main_program() {
     int choice;
+    bool as_whole;
     while (true) {
         cout << "1) Enter a file name for testing" << endl
              << "2) Use existing file" << endl;
@@ -229,7 +258,11 @@ void main_program(){
             break;
         }
     }
-    if(choice == 1) {
+
+    cout << "Do you want to print the output as a whole? (1 for Yes, 0 for No): ";
+    cin >> as_whole;
+
+    if (choice == 1) {
         string file_name;
         ifstream file;
         while (true) {
@@ -239,19 +272,16 @@ void main_program(){
             if (file.is_open()) {
                 cout << "File opened successfully." << endl;
                 CPU input_file(file_name);
-                input_file.test();
+                input_file.run_machine(as_whole);
                 break;
-            }
-            else{
-                cerr<<"Failed in open the file, please try again\n";
+            } else {
+                cerr << "Failed in open the file, please try again\n";
             }
         }
-    }
-    else{
+    } else {
         CPU cpu("input_test1.txt");
-        cpu.test();
+        cpu.run_machine(as_whole);
     }
-
 }
 
 
