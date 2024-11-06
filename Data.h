@@ -30,6 +30,12 @@ public:
         }
     }
 
+    string get_binary_value() {
+        int byte_int = get_byte_as_int();
+        string binary = bitset<8>(byte_int).to_string();
+        return binary;
+    }
+
 
     string get_byte_as_string() {
         return value;

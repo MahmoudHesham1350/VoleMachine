@@ -89,7 +89,6 @@ private:
 public:
     CPU(string file_name) {
         program_counter = 10;
-        instruction_fetch_counter = 0;
         cpu_register = Register();
         memory = Memory();
         ifstream file(file_name);
@@ -104,17 +103,13 @@ public:
             Byte memory_index("00");
 
 
-            if (opcode == 'C') {
-                cout << "Halting program" << endl;
-            }
-            else {
-                cout << endl << "Program step: " << instruction_fetch_counter << endl;
-                cout << endl << "Memory" << endl;
-                memory.print();
-                cout << endl << "Register" << endl;
-                cpu_register.print(2);
-                cout << endl;
-            }
+            cout << endl << "Program instruction: " << instruction << endl;
+            cout << endl << "Memory" << endl;
+            memory.print();
+            cout << endl << "Register" << endl;
+            cpu_register.print(2);
+            cout << endl;
+
 
 
             switch (opcode) {
@@ -139,9 +134,11 @@ public:
                     string byte = "0" + string(1, instruction[1]);
 
                     if (decisive_pattern.get_byte_as_int() == 0) {
-                        cout << "Screen Output: ";
-                        cpu_register.get_address(Byte(byte)).print();
-                        cout << endl;
+                        cout << "Screen Output: " << endl;
+                        Byte output =cpu_register.get_address(Byte(byte));
+                        cout << "hex:";
+                        output.print();
+                        cout << endl << "binary: " << output.get_binary_value() << endl;
                         break;
                     }
                     else {

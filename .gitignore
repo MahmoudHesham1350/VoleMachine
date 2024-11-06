@@ -1,0 +1,9 @@
+# Ignore all CMake files and directories
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CMakeScripts/
+*.cmake
+CMakeLists.txt.user
+
+.idea/
